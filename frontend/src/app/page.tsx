@@ -26,13 +26,13 @@ export default function Home() {
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/documents/")
+    fetch("https://docmind-production-565f.up.railway.app/api/documents/")
       .then(r => r.json()).then(setDocs).catch(() => {});
   }, []);
 
   useEffect(() => {
     if (activeNav === "multi") {
-      fetch("http://localhost:8000/api/multi/documents")
+      fetch("https://docmind-production-565f.up.railway.app/api/multi/documents")
         .then(r => r.json()).then(setMultiDocs).catch(() => {});
     }
   }, [activeNav]);
@@ -46,7 +46,7 @@ export default function Home() {
     const form = new FormData();
     form.append("file", file);
     try {
-      const res = await fetch("http://localhost:8000/api/documents/upload", { method: "POST", body: form });
+      const res = await fetch("https://docmind-production-565f.up.railway.app/api/documents/upload", { method: "POST", body: form });
       const doc = await res.json();
       setDocs(prev => [doc, ...prev]);
       setActiveDoc(doc);
@@ -60,7 +60,7 @@ export default function Home() {
   const pollAnalysis = (id) => {
     const iv = setInterval(async () => {
       try {
-        const res = await fetch(`http://localhost:8000/api/analysis/${id}`);
+        const res = await fetch(`https://docmind-production-565f.up.railway.app/api/analysis/${id}`);
         const data = await res.json();
         if (data.status === "analyzed") {
           setAnalysis(data);
@@ -77,7 +77,7 @@ export default function Home() {
     setActiveTab("summary");
     setMessages([{ role: "ai", content: `Document "${doc.original_name}" chargé. Posez vos questions !` }]);
     try {
-      const res = await fetch(`http://localhost:8000/api/analysis/${doc.id}`);
+      const res = await fetch(`https://docmind-production-565f.up.railway.app/api/analysis/${doc.id}`);
       const data = await res.json();
       if (data.status === "analyzed") setAnalysis(data);
       else if (data.status === "processing") pollAnalysis(doc.id);
@@ -91,7 +91,7 @@ export default function Home() {
     setMessages(prev => [...prev, { role: "user", content: msg }]);
     setIsThinking(true);
     try {
-      const res = await fetch(`http://localhost:8000/api/chat/${activeDoc.id}/message`, {
+      const res = await fetch(`https://docmind-production-565f.up.railway.app/api/chat/${activeDoc.id}/message`, {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: msg })
       });
@@ -108,7 +108,7 @@ export default function Home() {
     setIsSearching(true);
     setSearchResults([]);
     try {
-      const res = await fetch("http://localhost:8000/api/analysis/search/semantic", {
+      const res = await fetch("https://docmind-production-565f.up.railway.app/api/analysis/search/semantic", {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query: searchQuery })
       });
@@ -129,7 +129,7 @@ export default function Home() {
     setIsMultiLoading(true);
     setMultiResult(null);
     try {
-      const res = await fetch("http://localhost:8000/api/multi/analyze", {
+      const res = await fetch("https://docmind-production-565f.up.railway.app/api/multi/analyze", {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ document_ids: selectedDocs, question: multiQuestion, mode: multiMode })
       });
@@ -499,7 +499,7 @@ export default function Home() {
                           </div>
                           <div className="export-row">
                             <button className="btn btn-outline" onClick={() => { navigator.clipboard.writeText(analysis.summary); alert("Copié !"); }}>📋 Copier</button>
-                            <button className="btn btn-primary" onClick={() => window.open(`http://localhost:8000/api/export/${activeDoc.id}/pdf`, "_blank")}>⬇ Exporter PDF</button>
+                            <button className="btn btn-primary" onClick={() => window.open(`https://docmind-production-565f.up.railway.app/api/export/${activeDoc.id}/pdf`, "_blank")}>⬇ Exporter PDF</button>
                           </div>
                         </div>
                       )}
@@ -574,7 +574,7 @@ export default function Home() {
                             )}
                           </div>
                           <div className="export-row">
-                            <button className="btn btn-primary" onClick={() => window.open(`http://localhost:8000/api/export/${activeDoc.id}/pdf`, "_blank")}>⬇ Exporter PDF</button>
+                            <button className="btn btn-primary" onClick={() => window.open(`https://docmind-production-565f.up.railway.app/api/export/${activeDoc.id}/pdf`, "_blank")}>⬇ Exporter PDF</button>
                           </div>
                         </div>
                       )}
