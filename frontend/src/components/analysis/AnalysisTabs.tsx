@@ -7,8 +7,7 @@ import toast from "react-hot-toast";
 // ─── Summary Tab ──────────────────────────────────────────────────────────────
 
 export function SummaryTab({ analysis, docId }: { analysis: DocumentAnalysis; docId: string }) {
-  const meta = analysis.metadata || {};
-
+const meta = analysis.metadata;
   const copyResults = () => {
     const text = `${meta.title || analysis.filename}\n\nRÉSUMÉ\n${analysis.summary}\n\nPOINTS CLÉS\n${analysis.key_points?.map((k, i) => `${i + 1}. ${k}`).join("\n")}`;
     navigator.clipboard.writeText(text);
@@ -101,9 +100,8 @@ export function ExtractionTab({ analysis }: { analysis: DocumentAnalysis }) {
 // ─── Fiche Tab ────────────────────────────────────────────────────────────────
 
 export function FicheTab({ analysis, docId }: { analysis: DocumentAnalysis; docId: string }) {
-  const fiche = analysis.fiche_synthese || {};
-  const meta = analysis.metadata || {};
-  const colors = ["#7C6BF5", "#2DD4BF", "#F59E0B", "#F87171", "#4ADE80"];
+const fiche: any = analysis.fiche_synthese || {};
+const meta = analysis.metadata;  const colors = ["#7C6BF5", "#2DD4BF", "#F59E0B", "#F87171", "#4ADE80"];
 
   return (
     <div className="p-6">
