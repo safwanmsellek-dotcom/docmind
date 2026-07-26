@@ -19,12 +19,14 @@ app = FastAPI(title="DocMind AI API", version="1.0.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "https://docmind-cyan.vercel.app",
+        "http://localhost:3000",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 app.include_router(documents.router, prefix="/api/documents", tags=["documents"])
 app.include_router(analysis.router, prefix="/api/analysis", tags=["analysis"])
 app.include_router(chat.router, prefix="/api/chat", tags=["chat"])
