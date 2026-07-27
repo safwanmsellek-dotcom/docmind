@@ -19,10 +19,7 @@ app = FastAPI(title="DocMind AI API", version="1.0.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "https://docmind-cyan.vercel.app",
-        "http://localhost:3000",
-    ],
+    allow_origin_regex=r"https://docmind.*\.vercel\.app|http://localhost:3000",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
